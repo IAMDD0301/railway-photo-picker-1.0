@@ -1,0 +1,267 @@
+/* 指定獅尾圓體，Google 圓體為靜態託管備用 */
+@font-face {
+  font-family: 'Sishoe Round';
+  src: local('Sishoe Round'), local('Swei Gothic'), local('獅尾圓體');
+}
+
+:root {
+  --font-family: 'Sishoe Round', 'Swei Gothic', '獅尾圓體', 'Zen Maru Gothic', sans-serif;
+  --bg-color: #E0F2FE;          /* 日系清新天空藍 */
+  --card-bg: #FAFAFA;           /* 文青米白 */
+  --accent-color: #F59E0B;       /* 暖陽黃 */
+  --text-primary: #1F2937;     /* 深炭灰 */
+  --board-bg: #111827;         /* 機械時刻表深底色 */
+  --board-text: #F3F4F6;       /* 翻牌白字 */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Header 樣式 */
+.main-header {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand h1 {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.brand span {
+  font-size: 0.8rem;
+  color: #6B7280;
+}
+
+.badge {
+  background: var(--accent-color);
+  color: white;
+  font-size: 0.6rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.stats-bar {
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.btn-icon {
+  background: none;
+  border: 1px solid #D1D5DB;
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+/* 機械翻頁時刻表 (Split-Flap Board) */
+.drawing-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.flip-board-container {
+  background: var(--board-bg);
+  width: 100%;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  border: 4px solid #374151;
+}
+
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  color: #9CA3AF;
+  font-size: 0.75rem;
+  margin-bottom: 12px;
+}
+
+.flip-board {
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+}
+
+.flip-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.column-label {
+  color: #9CA3AF;
+  font-size: 0.7rem;
+}
+
+.flip-card {
+  background: #1F2937;
+  color: var(--board-text);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-bottom: 2px solid #000;
+  min-width: 70px;
+  text-align: center;
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,0.5);
+}
+
+.main-station .flip-card {
+  min-width: 140px;
+  font-size: 1.6rem;
+  color: var(--accent-color);
+}
+
+/* 翻牌動畫效果 */
+.flipping {
+  animation: flip 0.15s ease-in-out infinite alternate;
+}
+
+@keyframes flip {
+  0% { transform: rotateX(0deg); }
+  100% { transform: rotateX(90deg); opacity: 0.5; }
+}
+
+/* 快門按鈕 */
+.shutter-button {
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 16px 36px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.shutter-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(245, 158, 11, 0.5);
+}
+
+.shutter-button:active {
+  transform: translateY(2px);
+}
+
+/* 拍立得 Modal 照片卡片 */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 100;
+}
+
+.hidden { display: none; }
+
+.polaroid-card {
+  background: var(--card-bg);
+  padding: 16px 16px 24px 16px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 20px 30px rgba(0,0,0,0.3);
+  position: relative;
+  animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popUp {
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.btn-close {
+  position: absolute;
+  top: 10px; right: 12px;
+  background: none; border: none;
+  font-size: 1.5rem; cursor: pointer; color: #9CA3AF;
+}
+
+.polaroid-photo {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  background: #E5E7EB;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.polaroid-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.photo-tag {
+  position: absolute;
+  bottom: 8px; left: 8px;
+  background: rgba(0,0,0,0.6);
+  color: white; font-size: 0.75rem;
+  padding: 4px 8px; border-radius: 4px;
+}
+
+.polaroid-caption {
+  margin-top: 16px;
+}
+
+.polaroid-caption h2 { font-size: 1.4rem; color: var(--text-primary); }
+.location-text { font-size: 0.85rem; color: #6B7280; margin-bottom: 12px; }
+
+.info-section { margin-top: 10px; }
+.info-section h3 { font-size: 0.85rem; color: var(--accent-color); margin-bottom: 4px; }
+.info-section ul { list-style: none; font-size: 0.85rem; padding-left: 4px; }
+.info-section li { margin-bottom: 4px; color: #374151; }
+
+/* 歷史紀錄面板 */
+.history-panel {
+  background: white;
+  width: 100%; max-width: 450px;
+  max-height: 80vh;
+  border-radius: 16px; padding: 20px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+.history-list { overflow-y: auto; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.history-list li { padding: 8px 12px; background: #F3F4F6; border-radius: 8px; font-size: 0.9rem; }
+.btn-danger { background: #EF4444; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; width: 100%; }
